@@ -24,6 +24,7 @@ module.exports = {
       },
     },
     `gatsby-transformer-sharp`,
+    'gatsby-plugin-postcss',
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
