@@ -18,10 +18,12 @@ type Product = {
 
 export default  function ProductDetails(props) {
   
-let id:number 
-
+const [id, setId] = useState(props.params.id)
+if(id!= props.params.id)
+setId(props.params.id)
+console.log('param:'+props.params.id + 'stateId: ' + id)
   useEffect( ()=>{
-    id = props.params.id
+   
 fetch('https://fakestoreapi.com/products/'+ id).then(res=>res.json()).then(json=>{
   
   setDetails( json)
@@ -29,10 +31,9 @@ fetch('https://fakestoreapi.com/products/'+ id).then(res=>res.json()).then(json=
 
 })
 
-  }, [])
+  }, [id])
 
-
-
+  
 
   
  const [details, setDetails] = useState<Product>() 
@@ -44,7 +45,8 @@ fetch('https://fakestoreapi.com/products/'+ id).then(res=>res.json()).then(json=
  })}, [details])
 
     return (
-      <div>
+      <Layout>
+      
     <div className='flex   m-[3%]'>
         <img className=' size-[30%] hover:size-[50%]' src = {details?.image}></img> 
         
@@ -68,14 +70,15 @@ fetch('https://fakestoreapi.com/products/'+ id).then(res=>res.json()).then(json=
     </div>
     <h1 className='text-3xl font-bold'>Altri utenti hanno acquistato anche </h1>
     <div className='grid grid-cols-4  h-[70%] overflow-clip'>
-      {similar?.map(el=><div key={el.id.toString()} className='size-[50%]'>
+      {similar?similar?.map(el=><div key={el.id.toString()} className='size-[50%]'>
        
         <img className=' h-[85%] w-[90%]' src={el.image}></img>
         
-          <Link  className=' no-underline text-blue-500 hover:text-orange-500' aria-label={'/products/'+el.id} to={'/products/'+el.id}>{el.title}</Link>  
-      </div>)}
+          <Link   className=' no-underline text-blue-500 hover:text-orange-500' aria-label={'/products/'+el.id} to={'/products/'+el.id}>{el.title}</Link>  
+      </div>): <h2>Attendi, stiamo cercando i prodotti per te...</h2>}
       </div>
-      <Layout></Layout>
-    </div>
+      
+   
+    </Layout>
   )
 }
